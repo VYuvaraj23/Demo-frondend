@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+tr,th,tr{
+  @apply border text-center py-2 px-5
+}
+
+
