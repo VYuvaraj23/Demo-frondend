@@ -1,19 +1,42 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Guard from './utils/Auth'
+import { BrowserRouter, Route, Routes, useLocation } from "react-router";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Guard from "./utils/Auth";
+import Profile from "./pages/Profile";
+import AdminGuard from "./utils/AdminGuard";
+import NavBar from "./components/Nav";
 
+const ConditionalNavBar = () => {
+  const location = useLocation();
+  return location.pathname !== "/" ? <NavBar /> : null;
+};
 function App() {
   return (
-
+    
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element={ <Login/>} />
-        <Route path='/dashboard' element={<Guard><Dashboard /></Guard>} />
-        <Route path='*' element={<Login/>}></Route>
-    </Routes>
+      <ConditionalNavBar/>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AdminGuard>
+              <Dashboard />
+            </AdminGuard>
+          }
+          />
+        <Route
+          path="/profile"
+          element={
+            <Guard>
+              <Profile />
+            </Guard>
+          }
+          />
+        <Route path="*" element={<Login />}></Route>
+      </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
